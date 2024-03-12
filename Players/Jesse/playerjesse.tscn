@@ -1,8 +1,15 @@
-[gd_scene load_steps=7 format=3 uid="uid://bxylv50enx4tb"]
+[gd_scene load_steps=9 format=3 uid="uid://bxylv50enx4tb"]
 
 [ext_resource type="Script" path="res://Players/Jesse/playerjesse.gd" id="1_w2pg1"]
 [ext_resource type="PackedScene" uid="uid://bmjkc1l0qdpx" path="res://Players/Jesse/rock.tscn" id="2_2fa4w"]
 [ext_resource type="Texture2D" uid="uid://dn3hd76xaf2wx" path="res://Randomjunk/Sprite-0001.png" id="2_q5lbh"]
+
+[sub_resource type="Curve" id="Curve_ijshb"]
+max_value = 2.0
+_data = [Vector2(0, 0), 0.0, 1.45874, 0, 0, Vector2(0.235955, 0.241758), 0.0, 0.0, 0, 0, Vector2(1, 1.53846), 0.70217, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6orgg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v5m48"]
 
@@ -24,6 +31,9 @@ properties/3/replication_mode = 1
 properties/4/path = NodePath("Sprite2D:rotation")
 properties/4/spawn = true
 properties/4/replication_mode = 1
+properties/5/path = NodePath("HealthText:text")
+properties/5/spawn = true
+properties/5/replication_mode = 1
 
 [node name="playerjes" type="CharacterBody2D"]
 collision_mask = 11
@@ -33,8 +43,32 @@ script = ExtResource("1_w2pg1")
 one_shot = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
 scale = Vector2(0.64, 0.64)
 texture = ExtResource("2_q5lbh")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="Sprite2D"]
+show_behind_parent = true
+position = Vector2(-15, -15)
+emitting = false
+amount = 60
+lifetime = 0.5
+speed_scale = 2.0
+explosiveness = 0.73
+emission_shape = 4
+emission_points = PackedVector2Array(0, 0, 0, 1, 0, 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 7, 0, 8, 0, 9, 0, 10, 0, 11, 0, 12, 0, 13, 0, 14, 0, 15, 0, 16, 0, 17, 0, 18, 0, 19, 0, 20, 0, 21, 1, 0, 1, 1, 1, 2, 1, 3, 1, 4, 1, 5, 1, 6, 1, 7, 1, 8, 1, 9, 1, 10, 1, 11, 1, 12, 1, 13, 1, 14, 1, 15, 1, 16, 1, 17, 1, 18, 1, 19, 1, 20, 1, 21, 1, 22, 1, 23, 1, 24, 1, 25, 1, 26, 1, 27, 1, 28, 1, 29, 1, 30, 2, 0, 2, 1, 2, 2, 2, 3, 2, 4, 2, 5, 2, 6, 2, 7, 2, 8, 2, 9, 2, 10, 2, 11, 2, 12, 2, 13, 2, 14, 2, 15, 2, 16, 2, 17, 2, 18, 2, 19, 2, 20, 2, 21, 2, 22, 2, 23, 2, 24, 2, 25, 2, 26, 2, 27, 2, 28, 2, 29, 2, 30, 2, 31, 3, 0, 3, 1, 3, 2, 3, 3, 3, 4, 3, 5, 3, 6, 3, 7, 3, 8, 3, 9, 3, 10, 3, 11, 3, 12, 3, 13, 3, 14, 3, 15, 3, 16, 3, 17, 3, 18, 3, 19, 3, 20, 3, 21, 3, 22, 3, 23, 3, 24, 3, 25, 3, 26, 3, 27, 3, 28, 3, 29, 3, 30, 3, 31, 4, 0, 4, 1, 4, 2, 4, 3, 4, 8, 4, 9, 4, 10, 4, 11, 4, 12, 4, 13, 4, 14, 4, 15, 4, 16, 4, 17, 4, 18, 4, 19, 4, 20, 4, 21, 4, 22, 4, 23, 4, 24, 4, 25, 4, 26, 4, 27, 4, 28, 4, 29, 4, 30, 4, 31, 5, 0, 5, 1, 5, 2, 5, 3, 5, 22, 5, 23, 5, 24, 5, 25, 5, 26, 5, 27, 5, 28, 5, 29, 5, 30, 5, 31, 6, 0, 6, 1, 6, 2, 6, 3, 6, 28, 6, 29, 6, 30, 6, 31, 7, 0, 7, 1, 7, 2, 7, 3, 7, 28, 7, 29, 7, 30, 7, 31, 8, 0, 8, 1, 8, 2, 8, 3, 8, 28, 8, 29, 8, 30, 8, 31, 9, 0, 9, 1, 9, 2, 9, 3, 9, 28, 9, 29, 9, 30, 9, 31, 10, 0, 10, 1, 10, 2, 10, 3, 10, 28, 10, 29, 10, 30, 10, 31, 11, 0, 11, 1, 11, 2, 11, 3, 11, 28, 11, 29, 11, 30, 11, 31, 12, 0, 12, 1, 12, 2, 12, 3, 12, 28, 12, 29, 12, 30, 12, 31, 13, 0, 13, 1, 13, 2, 13, 3, 13, 28, 13, 29, 13, 30, 13, 31, 14, 0, 14, 1, 14, 2, 14, 3, 14, 28, 14, 29, 14, 30, 14, 31, 15, 0, 15, 1, 15, 2, 15, 3, 15, 4, 15, 28, 15, 29, 15, 30, 15, 31, 16, 0, 16, 1, 16, 2, 16, 3, 16, 4, 16, 28, 16, 29, 16, 30, 16, 31, 17, 0, 17, 1, 17, 2, 17, 3, 17, 4, 17, 28, 17, 29, 17, 30, 17, 31, 18, 0, 18, 1, 18, 2, 18, 3, 18, 4, 18, 28, 18, 29, 18, 30, 18, 31, 19, 0, 19, 1, 19, 2, 19, 3, 19, 4, 19, 28, 19, 29, 19, 30, 19, 31, 20, 0, 20, 1, 20, 2, 20, 3, 20, 4, 20, 28, 20, 29, 20, 30, 20, 31, 21, 0, 21, 1, 21, 2, 21, 3, 21, 4, 21, 28, 21, 29, 21, 30, 21, 31, 22, 0, 22, 1, 22, 2, 22, 3, 22, 4, 22, 28, 22, 29, 22, 30, 22, 31, 23, 0, 23, 1, 23, 2, 23, 3, 23, 4, 23, 28, 23, 29, 23, 30, 23, 31, 24, 0, 24, 1, 24, 2, 24, 3, 24, 4, 24, 28, 24, 29, 24, 30, 24, 31, 25, 0, 25, 1, 25, 2, 25, 3, 25, 4, 25, 28, 25, 29, 25, 30, 25, 31, 26, 0, 26, 1, 26, 2, 26, 3, 26, 4, 26, 5, 26, 6, 26, 7, 26, 8, 26, 9, 26, 10, 26, 11, 26, 12, 26, 13, 26, 14, 26, 15, 26, 16, 26, 28, 26, 29, 26, 30, 26, 31, 27, 0, 27, 1, 27, 2, 27, 3, 27, 4, 27, 5, 27, 6, 27, 7, 27, 8, 27, 9, 27, 10, 27, 11, 27, 12, 27, 13, 27, 14, 27, 15, 27, 16, 27, 17, 27, 18, 27, 19, 27, 20, 27, 21, 27, 22, 27, 23, 27, 24, 27, 25, 27, 26, 27, 27, 27, 28, 27, 29, 27, 30, 27, 31, 28, 0, 28, 1, 28, 2, 28, 3, 28, 4, 28, 5, 28, 6, 28, 7, 28, 8, 28, 9, 28, 10, 28, 11, 28, 12, 28, 13, 28, 14, 28, 15, 28, 16, 28, 17, 28, 18, 28, 19, 28, 20, 28, 21, 28, 22, 28, 23, 28, 24, 28, 25, 28, 26, 28, 27, 28, 28, 28, 29, 28, 30, 28, 31, 29, 0, 29, 1, 29, 2, 29, 3, 29, 4, 29, 5, 29, 6, 29, 7, 29, 8, 29, 9, 29, 10, 29, 11, 29, 12, 29, 13, 29, 14, 29, 15, 29, 16, 29, 17, 29, 18, 29, 19, 29, 20, 29, 21, 29, 22, 29, 23, 29, 24, 29, 25, 29, 26, 29, 27, 29, 28, 29, 29, 29, 30, 29, 31, 30, 1, 30, 2, 30, 3, 30, 4, 30, 5, 30, 6, 30, 7, 30, 8, 30, 9, 30, 10, 30, 11, 30, 12, 30, 13, 30, 14, 30, 15, 30, 16, 30, 17, 30, 18, 30, 19, 30, 20, 30, 21, 30, 22, 30, 23, 30, 24, 30, 25, 30, 26, 30, 27, 30, 28, 30, 29, 30, 30, 30, 31, 31, 16, 31, 17, 31, 18, 31, 19, 31, 20, 31, 21, 31, 22, 31, 23, 31, 24, 31, 25, 31, 26, 31, 27, 31, 28, 31, 29, 31, 30, 31, 31)
+emission_colors = PackedColorArray()
+gravity = Vector2(0, 0)
+linear_accel_min = -18.18
+linear_accel_max = 78.05
+angle_min = -203.6
+angle_max = 392.7
+scale_amount_min = 4.0
+scale_amount_max = 4.0
+scale_amount_curve = SubResource("Curve_ijshb")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Sprite2D"]
+sprite_frames = SubResource("SpriteFrames_6orgg")
 
 [node name="rock" parent="." instance=ExtResource("2_2fa4w")]
 collision_mask = 11
@@ -58,6 +92,18 @@ offset_right = 250.0
 offset_bottom = -49.0
 scale = Vector2(0.914467, 0.914467)
 text = "Accel: "
+
+[node name="HealthText" type="RichTextLabel" parent="."]
+modulate = Color(1, 0.733333, 0.94902, 1)
+texture_filter = 3
+offset_left = -15.0
+offset_top = -37.0
+offset_right = 14.0
+offset_bottom = -14.0
+pivot_offset = Vector2(15, 12)
+bbcode_enabled = true
+text = "100"
+scroll_active = false
 
 [node name="MouseArea" type="Area2D" parent="."]
 top_level = true

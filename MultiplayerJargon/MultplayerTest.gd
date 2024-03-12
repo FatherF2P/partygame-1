@@ -1,7 +1,5 @@
 extends Node2D
 
-@export var player_scene: PackedScene #maybe make this an array later
-@export var rock_scene: PackedScene
 @export var container: PackedScene
 
 const PORT = 4433
@@ -15,19 +13,23 @@ func _ready():
 	multiplayer.connected_to_server.connect(on_connected_to_server)
 	#upnp_setup()
 
+#192.168.1.24
+#192.168.74.193 hotspot
 func _on_host_pressed(): #64.8.134.2
 	var peer = ENetMultiplayerPeer.new()
 	peer.create_server(PORT)
 	multiplayer.multiplayer_peer = peer
-	
+
 	multiplayer.peer_connected.connect(_add_player) #right track
 	_add_player(multiplayer.get_unique_id())
 	send_player_info('host', multiplayer.get_unique_id())
-	
+
 func _on_join_pressed():
+	#print('attempted')
 	var text_type = $ui/Menu/Main/Control/TextEdit
 	var peer = ENetMultiplayerPeer.new()
 	ip = text_type.text
+	#ip = 'localhost'
 	peer.create_client(ip, PORT) #may have to switch to ip of the host
 	multiplayer.multiplayer_peer = peer
 	
@@ -45,6 +47,7 @@ func send_player_info(name, id): #starts global data
 		}
 	
 	if multiplayer.is_server(): 
+		Director.players[id]['choice'] = 'host'
 		for i in Director.players:
 			send_player_info.rpc(Director.players[i].name, i)
 
@@ -57,7 +60,6 @@ func start_game():
 	if multiplayer.is_server():
 		change_level.call_deferred(load("res://Levels/level_test.tscn"))
 		
-
 func change_level(scene: PackedScene):
 	# Remove old level if any.
 	var level = $Level
@@ -68,18 +70,19 @@ func change_level(scene: PackedScene):
 	level.add_child(scene.instantiate())
 #endregion
 
-#func upnp_setup():
-	#var upnp = UPNP.new()
-	#
-	#var discover_result = upnp.discover()
-	#assert(discover_re sult == UPNP.UPNP_RESULT_SUCCESS, \
-		#"UPNP Discover Failed! Error %s" % discover_result)
-#
-	#assert(upnp.get_gateway() and upnp.get_gateway().is_valid_gateway(), \
-		#"UPNP Invalid Gateway!")
-#
-	#var map_result = upnp.add_port_mapping(PORT)
-	#assert(map_result == UPNP.UPNP_RESULT_SUCCESS, \
-		#"UPNP Port Mapping Failed! Error %s" % map_result)
-	#
-	#print("Success! Join Address: %s" % upnp.query_external_address())
+func upnp_setup(): #internet connection
+	var upnp = UPNP.new()
+	
+	var discover_result = upnp.discover()
+	assert(discover_result == UPNP.UPNP_RESULT_SUCCESS, \
+		"UPNP Discover Failed! Error %s" % discover_result)
+
+	assert(upnp.get_gateway() and upnp.get_gateway().is_valid_gateway(), \
+		"UPNP Invalid Gateway!")
+
+	var map_result = upnp.add_port_mapping(PORT, PORT)
+	assert(map_result == UPNP.UPNP_RESULT_SUCCESS, \
+		"UPNP Port Mapping Failed! Error %s" % map_result)
+	
+	print("Success! Join Address: %s" % upnp.query_external_address())
+
