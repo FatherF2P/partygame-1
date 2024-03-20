@@ -23,12 +23,16 @@ func _process(delta):
 	if get_colliding_bodies() and player.current_state == 'thrown':
 		#print(get_colliding_bodies()[0].collision_layer)
 		if get_colliding_bodies()[0].has_method('hurt') and can_hit == true and player.current_state == 'thrown': #layer 8 for enemy
-			get_colliding_bodies()[0].hurt.rpc(linear_velocity * 5 * Vector2(1,-1), 25)
+			get_colliding_bodies()[0].hurt.rpc(Vector2(-linear_velocity.y * 5, -linear_velocity.x * .5) , 25)
+			Camera.add_trauma(20,linear_velocity.normalized())
+			print(linear_velocity.normalized())
 			can_hit = false #might have to use transform.x or manual velocity 
 			linear_velocity = (-linear_velocity + player.velocity) * .75
 			timer.start()
 		elif get_colliding_bodies()[0].collision_layer==3 and freeze == false:
 			freeze = true
+			Camera.add_trauma(20,Vector2(linear_velocity.normalized().y, linear_velocity.normalized().x))
+			print(linear_velocity.normalized())
 			$CollisionShape2D.disabled = true
 			timer.start()
 			

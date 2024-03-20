@@ -50,7 +50,7 @@ func _on_join_pressed():
 	var peer = ENetMultiplayerPeer.new()
 	ip = text_type.text
 	#ip = 'localhost'
-	peer.create_client('66.242.81.85', PORT) #may have to switch to ip of the host
+	peer.create_client('localhost', PORT) #may have to switch to ip of the host
 	multiplayer.multiplayer_peer = peer
 	
 func _add_player(id = 1): #starts lobby code
@@ -60,6 +60,7 @@ func _add_player(id = 1): #starts lobby code
 
 func remove_player(peer_id):
 	var player = $ui/Menu/select/HBoxContainer.get_node_or_null(str(peer_id))
+	Director.players.erase(peer_id)
 	if player:
 		player.queue_free()
 
